@@ -1,5 +1,6 @@
 package com.upc.arquiwebpa.controller;
 
+import com.upc.arquiwebpa.dtos.ImageDTO;
 import com.upc.arquiwebpa.entities.Image;
 import com.upc.arquiwebpa.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,4 +46,15 @@ public class ImageController {
         imageService.deleteImage(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    private ImageDTO convertToDTO(Image image){
+        ModelMapper modelMapper =new ModelMapper();
+        return modelMapper.map(image, ImageDTO.class);
+    }
+
+    private List<ImageDTO> convertToListDTO(List<Image> list){
+        return list.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+
+
 }

@@ -3,6 +3,7 @@ package com.upc.arquiwebpa.controller;
 import com.upc.arquiwebpa.dtos.ImageDTO;
 import com.upc.arquiwebpa.entities.Image;
 import com.upc.arquiwebpa.service.ImageService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/image")
@@ -37,8 +39,8 @@ public class ImageController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<Image>> getAllImages() {
-        return new ResponseEntity<>(imageService.listImage(), HttpStatus.OK);
+    public ResponseEntity<List<ImageDTO>> getAllImages() {
+        return new ResponseEntity<>(convertToListDTO(imageService.listImage()), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
